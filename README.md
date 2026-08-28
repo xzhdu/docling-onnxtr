@@ -21,18 +21,24 @@ Docling integration with the [OnnxTR](https://github.com/felixdittrich92/OnnxTR)
 
 ## Installation
 
-1. Create and activate a Python virtual environment:
-   ```bash
-   python3 -m venv .venv
-   source .venv/bin/activate
-   ```
+Using [`uv`](https://docs.astral.sh/uv/) (recommended):
 
-2. Install the required dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
+```bash
+# Sync dependencies and create virtual environment:
+uv sync
 
-*(For GPU acceleration, install `docling-ocr-onnxtr[gpu]` instead).*
+# For GPU acceleration:
+uv sync --extra gpu
+```
+
+Alternatively, using a virtual environment with `uv pip`:
+
+```bash
+uv venv
+source .venv/bin/activate
+uv pip install -r requirements.txt
+# (or for GPU acceleration: uv pip install "docling-ocr-onnxtr[gpu]==0.2.1")
+```
 
 ## Usage
 
@@ -42,21 +48,23 @@ Process a document, chunk it, generate text embeddings, and export chunks to JSO
 
 ```bash
 # Auto-detect whether OCR is needed (default mode):
-python docling_onnxtr.py path/to/document.pdf
+uv run docling_onnxtr.py path/to/document.pdf
 
 # Specify a custom output JSON file or output directory:
-python docling_onnxtr.py path/to/document.pdf output.json
-python docling_onnxtr.py path/to/document_scan.jpg ./output_dir/
+uv run docling_onnxtr.py path/to/document.pdf output.json
+uv run docling_onnxtr.py path/to/document_scan.jpg ./output_dir/
 
 # Force OCR execution regardless of digital text layer:
-python docling_onnxtr.py path/to/document.pdf --force-ocr
+uv run docling_onnxtr.py path/to/document.pdf --force-ocr
 
 # Disable OCR completely and rely exclusively on programmatic text extraction:
-python docling_onnxtr.py path/to/document.pdf --no-ocr
+uv run docling_onnxtr.py path/to/document.pdf --no-ocr
 
 # Custom digital text detection thresholds:
-python docling_onnxtr.py path/to/document.pdf --min-chars 100 --min-ratio 0.8
+uv run docling_onnxtr.py path/to/document.pdf --min-chars 100 --min-ratio 0.8
 ```
+
+*(Note: You can also activate the virtual environment via `source .venv/bin/activate` and run `python docling_onnxtr.py ...`).*
 
 ### CLI Options
 
